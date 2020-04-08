@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import map from '../assets/map.png';
+import mapimg from '../assets/map.png';
 
 const app = new PIXI.Application({
     width: 256,         // default: 800
@@ -17,21 +17,20 @@ app.renderer.view.style.display = "block";
 app.renderer.autoResize = true;
 app.renderer.resize(window.innerWidth, window.innerHeight);
 
-const assetFolder = '../assets/';
-const assetExt = '.png';
 const loader = app.loader,
     resources = loader.resources,
-    Sprite = PIXI.Sprite;
+    Sprite = PIXI.Sprite,
+    Rectangle = PIXI.Rectangle;
 
 loader
-    .add([
+    .add(
         // assetFolder + 'map' + assetExt,
-        map
+        mapimg
         // assetFolder + 'club' + assetExt,
         // assetFolder + 'diamond' + assetExt,
         // assetFolder + 'heart' + assetExt,
         // assetFolder + 'spade' + assetExt,
-    ])
+    )
     .on("progress", loadProgressHandler)
     .load(setup);
 
@@ -48,19 +47,24 @@ function loadProgressHandler(loader, resource) {
 }
 
 function setup() {
-    //Create the `cat` sprite
-    let texture = resources[map].texture;
-    let cat = new Sprite(texture);
-    // console.log(cat)
-    // console.log(texture)
-    //Change the sprite's position
-    cat.x = 96;
-    cat.y = 96;
-    //Change the sprite's size
-    // cat.width = 80;
-    // cat.height = 120;
 
-    //Add the cat to the stage so you can see it
-    app.stage.addChild(cat);
+    // let suit1 = getSpriteNum(0);
+    // suit1.scale.set(0.3,0.3);
+    let suit2 = getSpriteNum(1);
+    suit2.scale.set(0.3,0.3);
+    suit2.position.set(900,20)
+
+    // let suit3 = getSpriteNum(2);
+    // let suit4 = getSpriteNum(3);
+
+
+    // app.stage.addChild(suit1);
+    app.stage.addChild(suit2);
 }
 
+function getSpriteNum(num) {
+    let texture = resources[mapimg].texture;
+    let rectangle = new Rectangle((num * 230), 0, 230, 230);
+    texture.frame = rectangle;
+    return new Sprite(texture);
+}
